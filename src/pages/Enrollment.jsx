@@ -103,6 +103,10 @@ const Enrollment = () => {
         // Get course name
         const selectedCourse = courses.find(c => c.value === formData.course)
         
+        // Auto-approve if using promo code
+        const promoCode = formData.promoCode.toUpperCase()
+        const autoApprove = promoCode === 'THOLASY2024' || promoCode === 'FREEFULL2025'
+        
         // Create enrollment object
         const enrollment = {
           first_name: formData.firstName,
@@ -116,7 +120,7 @@ const Enrollment = () => {
           wallet_number: formData.walletNumber,
           promo_code: formData.promoCode,
           price: coursePrice,
-          status: 'pending',
+          status: autoApprove ? 'approved' : 'pending',
           submitted_at: new Date().toISOString()
         }
         
@@ -142,7 +146,7 @@ const Enrollment = () => {
           courseName: selectedCourse?.label || formData.course,
           price: coursePrice,
           submittedAt: new Date().toISOString(),
-          status: 'pending'
+          status: autoApprove ? 'approved' : 'pending'
         })
         localStorage.setItem('enrollments', JSON.stringify(existingEnrollments))
         

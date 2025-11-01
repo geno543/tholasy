@@ -91,7 +91,6 @@ const CourseViewer = () => {
           id: 0,
           title: 'Free Preview Session',
           description: 'Get a preview of what you\'ll learn in the Blender course',
-          duration: '15 min',
           videoUrl: 'https://drive.google.com/file/d/1OJRr1QUeuZsqZIvZb5BzLI-8tchvZoa3/view?usp=drive_link',
           isFree: true
         },
@@ -99,7 +98,6 @@ const CourseViewer = () => {
           id: 1,
           title: 'Session 1: Interface & Basics',
           description: 'Learning the interface and getting the basics and tool functions',
-          duration: '45 min',
           videoUrl: 'https://drive.google.com/file/d/1OdEzIntGiK8qhjLVs-O4Jzkaiw4PnUDM/view?usp=drive_link',
           isFree: false
         },
@@ -107,7 +105,6 @@ const CourseViewer = () => {
           id: 2,
           title: 'Session 2: First Modeling Practice',
           description: 'Modeling a simple design to apply the tools',
-          duration: '50 min',
           videoUrl: 'https://drive.google.com/file/d/1szwz8MS9hJktSjGi5b8kxJTk9QBOiBw2/view?usp=drive_link',
           isFree: false
         },
@@ -115,7 +112,6 @@ const CourseViewer = () => {
           id: 3,
           title: 'Session 3: Progressive Modeling',
           description: 'Practice more designs and models, gradually with the difficulties',
-          duration: '55 min',
           videoUrl: 'https://drive.google.com/file/d/15TBI4XGHs1EjZmqtBPj4br72yc3NR-AM/view?usp=drive_link',
           isFree: false
         },
@@ -123,7 +119,6 @@ const CourseViewer = () => {
           id: 4,
           title: 'Session 4: Shading & Materials',
           description: 'Shading and coloring the models, difference between materials\' properties',
-          duration: '60 min',
           videoUrl: 'https://drive.google.com/file/d/1Q-2yg9Cw_ZMkLem6oVznFAq7ACQHzu1d/view?usp=drive_link',
           isFree: false
         },
@@ -131,7 +126,6 @@ const CourseViewer = () => {
           id: 5,
           title: 'Session 5: Lighting & Rendering',
           description: 'Practice on the lightning and types of render',
-          duration: '50 min',
           videoUrl: 'https://drive.google.com/file/d/1YoJz5V-XBqFAL_hzxzP0XqJACjO8WJWI/view?usp=drive_link',
           isFree: false
         },
@@ -139,7 +133,6 @@ const CourseViewer = () => {
           id: 6,
           title: 'Session 6: Camera Operations',
           description: 'Learning about the camera and how to move it',
-          duration: '40 min',
           videoUrl: null,
           isFree: false
         },
@@ -147,7 +140,6 @@ const CourseViewer = () => {
           id: 7,
           title: 'Session 7: Exam & Future Planning',
           description: 'Exam session and know the future plan',
-          duration: '30 min',
           videoUrl: null,
           isFree: false
         },
@@ -155,7 +147,6 @@ const CourseViewer = () => {
           id: 8,
           title: 'Session 8: Animation Basics',
           description: 'Learning the basics of animation',
-          duration: '55 min',
           videoUrl: null,
           isFree: false
         },
@@ -163,7 +154,6 @@ const CourseViewer = () => {
           id: 9,
           title: 'Session 9: Complete Design Project',
           description: 'Build a complete design using all the previous knowledge',
-          duration: '70 min',
           videoUrl: null,
           isFree: false
         },
@@ -171,7 +161,6 @@ const CourseViewer = () => {
           id: 10,
           title: 'Session 10: Advanced Challenges',
           description: 'More advanced designs and complex modeling challenges',
-          duration: '65 min',
           videoUrl: null,
           isFree: false
         }
@@ -186,7 +175,6 @@ const CourseViewer = () => {
           id: 1,
           title: 'Session 1: Welcome to SolidWorks',
           description: 'Installation & Interface Navigation',
-          duration: '40 min',
           videoUrl: 'https://drive.google.com/file/d/1LHZWNl1f8dKFdxp5RzJz-AvdxCr9pj52/view?usp=drive_link',
           isFree: false
         },
@@ -194,7 +182,6 @@ const CourseViewer = () => {
           id: 2,
           title: 'Session 2: Foundations of 2D Sketching',
           description: 'Tools & Relations',
-          duration: '50 min',
           videoUrl: 'https://drive.google.com/file/d/1DQBdFc5r9kEeDgsUp0bdhiZslr3W1gy7/view?usp=drive_link',
           isFree: false
         },
@@ -202,7 +189,6 @@ const CourseViewer = () => {
           id: 3,
           title: 'Session 3: Advanced 2D Sketching & Workshop',
           description: 'Patterns, Trim, & Offset',
-          duration: '55 min',
           videoUrl: 'https://drive.google.com/file/d/1D83K6DuZFq9Wc0Kp5V-aG9jpQei0m2cX/view?usp=drive_link',
           isFree: false
         },
@@ -210,7 +196,6 @@ const CourseViewer = () => {
           id: 4,
           title: 'Session 4: Introduction to 3D Part Modeling',
           description: 'Extrude & Revolve Features',
-          duration: '60 min',
           videoUrl: 'https://drive.google.com/file/d/1zoi7KEDtgxbdAo9akos3R3t5uGGrtXBK/view?usp=drive_link',
           isFree: false
         },
@@ -218,7 +203,6 @@ const CourseViewer = () => {
           id: 5,
           title: 'Session 5: Advanced 3D Features & Workshop',
           description: 'Sweep, Loft, & Hole Wizard',
-          duration: '65 min',
           videoUrl: null,
           isFree: false
         },
@@ -226,7 +210,6 @@ const CourseViewer = () => {
           id: 6,
           title: 'Session 6: Assembly Design',
           description: 'Mating Parts & Creating Sub-Assemblies',
-          duration: '70 min',
           videoUrl: null,
           isFree: false
         },
@@ -234,7 +217,6 @@ const CourseViewer = () => {
           id: 7,
           title: 'Session 7: Introduction to Simulation',
           description: 'Running a Basic Static & Force Analysis',
-          duration: '50 min',
           videoUrl: null,
           isFree: false
         },
@@ -242,7 +224,6 @@ const CourseViewer = () => {
           id: 8,
           title: 'Session 8: Capstone Project',
           description: 'From Concept to Final Assembly & Drawing',
-          duration: '90 min',
           videoUrl: null,
           isFree: false
         }
@@ -431,7 +412,6 @@ const CourseViewer = () => {
                               <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
                             </svg>
                           ) : null}
-                          <span className="text-xs opacity-75">{session.duration}</span>
                         </div>
                         <div className="font-medium text-sm mb-1 line-clamp-2">
                           {session.title}
@@ -562,11 +542,7 @@ const CourseViewer = () => {
           {/* Additional Resources */}
           <div className="bg-dark-800 border-t border-dark-700 p-6 mt-4">
             <h3 className="text-lg font-bold text-white mb-4">About This Session</h3>
-            <div className="grid md:grid-cols-3 gap-4">
-              <div className="bg-dark-700 p-4 rounded-lg">
-                <div className="text-primary-400 text-sm mb-1">Duration</div>
-                <div className="text-white font-semibold">{currentSessionData.duration}</div>
-              </div>
+            <div className="grid md:grid-cols-2 gap-4">
               <div className="bg-dark-700 p-4 rounded-lg">
                 <div className="text-primary-400 text-sm mb-1">Session Type</div>
                 <div className="text-white font-semibold">
