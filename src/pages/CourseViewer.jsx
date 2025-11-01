@@ -187,7 +187,7 @@ const CourseViewer = () => {
           title: 'Session 1: Welcome to SolidWorks',
           description: 'Installation & Interface Navigation',
           duration: '40 min',
-          videoUrl: null,
+          videoUrl: 'https://drive.google.com/file/d/1LHZWNl1f8dKFdxp5RzJz-AvdxCr9pj52/view?usp=drive_link',
           isFree: false
         },
         {
@@ -195,7 +195,7 @@ const CourseViewer = () => {
           title: 'Session 2: Foundations of 2D Sketching',
           description: 'Tools & Relations',
           duration: '50 min',
-          videoUrl: null,
+          videoUrl: 'https://drive.google.com/file/d/1DQBdFc5r9kEeDgsUp0bdhiZslr3W1gy7/view?usp=drive_link',
           isFree: false
         },
         {
@@ -203,7 +203,7 @@ const CourseViewer = () => {
           title: 'Session 3: Advanced 2D Sketching & Workshop',
           description: 'Patterns, Trim, & Offset',
           duration: '55 min',
-          videoUrl: null,
+          videoUrl: 'https://drive.google.com/file/d/1D83K6DuZFq9Wc0Kp5V-aG9jpQei0m2cX/view?usp=drive_link',
           isFree: false
         },
         {
@@ -211,7 +211,7 @@ const CourseViewer = () => {
           title: 'Session 4: Introduction to 3D Part Modeling',
           description: 'Extrude & Revolve Features',
           duration: '60 min',
-          videoUrl: null,
+          videoUrl: 'https://drive.google.com/file/d/1zoi7KEDtgxbdAo9akos3R3t5uGGrtXBK/view?usp=drive_link',
           isFree: false
         },
         {
