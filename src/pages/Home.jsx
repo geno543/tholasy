@@ -101,52 +101,117 @@ const Home = () => {
   return (
     <div className="pt-20">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-dark-900 via-dark-800 to-primary-900 text-white">
-        <div className="absolute inset-0 opacity-10">
+      <section className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-red-900 text-white min-h-[90vh] flex items-center">
+        {/* Animated Background Pattern */}
+        <div className="absolute inset-0 opacity-5">
           <div className="absolute inset-0" style={{
             backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
-            backgroundSize: '40px 40px'
+            backgroundSize: '50px 50px'
           }} />
         </div>
         
-        <div className="container-custom relative section-padding">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
-              <h1 className="heading-xl">
-                Learn 3D Design
+        {/* Gradient Overlays for Depth */}
+        <div className="absolute top-0 left-0 w-96 h-96 bg-red-500/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
+        
+        <div className="container-custom relative z-10 py-20">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            {/* Left Content */}
+            <div className="space-y-8 lg:pr-8">
+              <div className="inline-block">
+                <span className="bg-red-500/20 text-red-300 px-4 py-2 rounded-full text-sm font-semibold backdrop-blur-sm border border-red-500/30">
+                  🚀 Professional 3D Design Training
+                </span>
+              </div>
+              
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
+                Master
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-red-500 to-orange-500">
+                  3D Design
+                </span>
+                With Experts
               </h1>
               
-              <p className="text-xl text-dark-200 leading-relaxed">
-                Professional training in Blender and SolidWorks. Build real skills for 3D modeling, animation, and CAD design.
+              <p className="text-xl md:text-2xl text-gray-300 leading-relaxed">
+                Transform your creativity into reality with professional training in 
+                <span className="text-orange-400 font-semibold"> Blender</span> and 
+                <span className="text-red-400 font-semibold"> SolidWorks</span>. 
+                Learn from industry experts and build a stunning portfolio.
               </p>
               
-              <div className="flex flex-wrap gap-4">
-                <Link to="/enrollment" className="btn btn-primary bg-white text-dark-900 hover:bg-dark-50">
-                  Get Started
+              <div className="flex flex-wrap gap-4 pt-4">
+                <Link 
+                  to="/enrollment" 
+                  className="group relative px-8 py-4 bg-gradient-to-r from-red-600 to-orange-600 text-white font-semibold rounded-xl shadow-2xl hover:shadow-red-500/50 transition-all duration-300 hover:scale-105 overflow-hidden"
+                >
+                  <span className="relative z-10 flex items-center gap-2">
+                    Start Learning Now
+                    <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </span>
                 </Link>
-                <Link to="/courses" className="btn btn-outline border-white text-white hover:bg-white hover:text-dark-900">
-                  View Courses
+                <Link 
+                  to="/courses" 
+                  className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl border-2 border-white/30 hover:bg-white/20 transition-all duration-300 hover:scale-105"
+                >
+                  Explore Courses
                 </Link>
               </div>
 
-              <div className="flex flex-wrap gap-8 pt-4">
+              {/* Stats with Modern Design */}
+              <div className="grid grid-cols-3 gap-6 pt-8">
                 {stats.map((stat) => (
-                  <div key={stat.label}>
-                    <div className="text-3xl font-bold text-primary-300">{stat.number}</div>
-                    <div className="text-dark-300 text-sm">{stat.label}</div>
+                  <div key={stat.label} className="text-center lg:text-left">
+                    <div className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-orange-400">
+                      {stat.number}
+                    </div>
+                    <div className="text-gray-400 text-sm mt-1">{stat.label}</div>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="relative">
-              <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20">
+            {/* Right Image - Modern Design */}
+            <div className="relative lg:h-[600px]">
+              {/* Decorative Elements */}
+              <div className="absolute -top-4 -right-4 w-72 h-72 bg-gradient-to-br from-red-500/30 to-orange-500/30 rounded-3xl blur-2xl" />
+              <div className="absolute -bottom-4 -left-4 w-72 h-72 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-3xl blur-2xl" />
+              
+              {/* Main Image Container */}
+              <div className="relative z-10 h-full rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-gradient-to-br from-gray-800 to-gray-900 transform hover:scale-[1.02] transition-transform duration-500">
                 <SmartImage
-                  src="https://images.pexels.com/photos/2377965/pexels-photo-2377965.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                  fallback="https://placehold.co/1120x630?text=Blender+Workspace"
-                  alt="Blender modeling workspace"
+                  src="/images/hero-3d-design.jpg"
+                  fallback="https://images.pexels.com/photos/2377965/pexels-photo-2377965.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                  alt="3D Design - Blender and SolidWorks"
                   className="w-full h-full object-cover"
                 />
+                
+                {/* Overlay Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-transparent to-transparent" />
+                
+                {/* Floating Badge */}
+                <div className="absolute bottom-6 left-6 right-6 bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-orange-500 rounded-xl flex items-center justify-center">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <div className="text-white font-semibold">Professional Tools</div>
+                      <div className="text-gray-300 text-sm">Blender & SolidWorks</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Small floating cards */}
+              <div className="absolute top-8 -left-4 bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20 shadow-xl hidden lg:block animate-pulse">
+                <div className="text-2xl">🎨</div>
+              </div>
+              <div className="absolute top-24 -right-4 bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20 shadow-xl hidden lg:block animate-pulse" style={{animationDelay: '1s'}}>
+                <div className="text-2xl">⚙️</div>
               </div>
             </div>
           </div>
