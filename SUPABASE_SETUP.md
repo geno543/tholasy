@@ -20,6 +20,7 @@
 | `first_name`    | text        | -                   | No       | Student's first name     |
 | `last_name`     | text        | -                   | No       | Student's last name      |
 | `email`         | text        | -                   | No       | Student's email          |
+| `password`      | text        | -                   | No       | Student's password       |
 | `phone`         | text        | -                   | No       | Student's phone number   |
 | `course`        | text        | -                   | No       | Course ID (blender/solidworks/bundle) |
 | `course_name`   | text        | -                   | No       | Full course name         |
@@ -41,6 +42,7 @@ CREATE TABLE enrollments (
   first_name text NOT NULL,
   last_name text NOT NULL,
   email text NOT NULL,
+  password text NOT NULL,
   phone text NOT NULL,
   course text NOT NULL,
   course_name text NOT NULL,

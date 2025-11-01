@@ -7,6 +7,7 @@ const CourseViewer = () => {
   const [currentSession, setCurrentSession] = useState(0)
   const [completedSessions, setCompletedSessions] = useState([])
   const [userEmail, setUserEmail] = useState('')
+  const [userPassword, setUserPassword] = useState('')
   const [showEmailPrompt, setShowEmailPrompt] = useState(true)
   
   // Check if user is enrolled and approved
@@ -15,20 +16,23 @@ const CourseViewer = () => {
   useEffect(() => {
     // Check if email is already saved
     const savedEmail = localStorage.getItem('userEmail')
-    if (savedEmail) {
+    const savedPassword = localStorage.getItem('userPassword')
+    if (savedEmail && savedPassword) {
       setUserEmail(savedEmail)
+      setUserPassword(savedPassword)
       setShowEmailPrompt(false)
-      checkEnrollmentStatus(savedEmail)
+      checkEnrollmentStatus(savedEmail, savedPassword)
     }
   }, [courseId])
 
-  const checkEnrollmentStatus = async (email) => {
+  const checkEnrollmentStatus = async (email, password) => {
     try {
       // Check Supabase first
       const { data, error } = await supabase
         .from('enrollments')
         .select('*')
         .eq('email', email)
+        .eq('password', password)
         .eq('status', 'approved')
         .in('course', [courseId, 'bundle'])
       
@@ -38,6 +42,7 @@ const CourseViewer = () => {
         const enrollments = JSON.parse(localStorage.getItem('enrollments') || '[]')
         const userEnrollment = enrollments.find(
           e => e.email === email && 
+          e.password === password &&
           (e.course === courseId || e.course === 'bundle') && 
           e.status === 'approved'
         )
@@ -52,6 +57,7 @@ const CourseViewer = () => {
       const enrollments = JSON.parse(localStorage.getItem('enrollments') || '[]')
       const userEnrollment = enrollments.find(
         e => e.email === email && 
+        e.password === password &&
         (e.course === courseId || e.course === 'bundle') && 
         e.status === 'approved'
       )
@@ -62,9 +68,14 @@ const CourseViewer = () => {
   const handleEmailSubmit = (e) => {
     e.preventDefault()
     if (userEmail && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userEmail)) {
+      if (!userPassword || userPassword.length < 6) {
+        alert('Please enter a valid password (minimum 6 characters)')
+        return
+      }
       localStorage.setItem('userEmail', userEmail)
+      localStorage.setItem('userPassword', userPassword)
       setShowEmailPrompt(false)
-      checkEnrollmentStatus(userEmail)
+      checkEnrollmentStatus(userEmail, userPassword)
     } else {
       alert('Please enter a valid email address')
     }
@@ -324,19 +335,34 @@ const CourseViewer = () => {
       {showEmailPrompt && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-dark-800 rounded-2xl max-w-md w-full p-8">
-            <h2 className="text-2xl font-bold text-white mb-4">Enter Your Email</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">Login to Access Course</h2>
             <p className="text-dark-300 mb-6">
-              Please enter your registered email to access the course content.
+              Please enter your registered email and password to access the course content.
             </p>
-            <form onSubmit={handleEmailSubmit}>
-              <input
-                type="email"
-                value={userEmail}
-                onChange={(e) => setUserEmail(e.target.value)}
-                className="input-field bg-dark-700 text-white border-dark-600 mb-4"
-                placeholder="your@email.com"
-                required
-              />
+            <form onSubmit={handleEmailSubmit} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-dark-200 mb-2">Email Address</label>
+                <input
+                  type="email"
+                  value={userEmail}
+                  onChange={(e) => setUserEmail(e.target.value)}
+                  className="input-field bg-dark-700 text-white border-dark-600 w-full"
+                  placeholder="your@email.com"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-dark-200 mb-2">Password</label>
+                <input
+                  type="password"
+                  value={userPassword}
+                  onChange={(e) => setUserPassword(e.target.value)}
+                  className="input-field bg-dark-700 text-white border-dark-600 w-full"
+                  placeholder="Your password"
+                  required
+                  minLength={6}
+                />
+              </div>
               <button type="submit" className="btn btn-primary w-full">
                 Continue
               </button>

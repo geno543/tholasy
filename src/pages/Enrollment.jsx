@@ -8,6 +8,7 @@ const Enrollment = () => {
     firstName: '',
     lastName: '',
     email: '',
+    password: '',
     phone: '',
     course: '',
     paymentMethod: 'vodafone',
@@ -79,6 +80,11 @@ const Enrollment = () => {
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = 'Invalid email format'
     }
+    if (!formData.password.trim()) {
+      newErrors.password = 'Password is required'
+    } else if (formData.password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters'
+    }
     if (!formData.phone.trim()) newErrors.phone = 'Phone number is required'
     if (!formData.course) newErrors.course = 'Please select a course'
     if (!formData.paymentMethod) newErrors.paymentMethod = 'Please select a payment method'
@@ -102,6 +108,7 @@ const Enrollment = () => {
           first_name: formData.firstName,
           last_name: formData.lastName,
           email: formData.email,
+          password: formData.password,
           phone: formData.phone,
           course: formData.course,
           course_name: selectedCourse?.label || formData.course,
@@ -317,6 +324,23 @@ const Enrollment = () => {
                     />
                     {errors.email && (
                       <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-dark-700 mb-2">
+                      Password *
+                    </label>
+                    <input
+                      type="password"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      className={`input-field ${errors.password ? 'border-red-500' : ''}`}
+                      placeholder="Minimum 6 characters"
+                    />
+                    {errors.password && (
+                      <p className="mt-1 text-sm text-red-600">{errors.password}</p>
                     )}
                   </div>
 
