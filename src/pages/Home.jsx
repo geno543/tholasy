@@ -248,6 +248,34 @@ const Home = () => {
 
 
 
+      {/* Student Work Gallery */}
+      <section className="section-padding bg-dark-50">
+        <div className="container-custom">
+          <div className="text-center mb-16">
+            <h2 className="heading-lg mb-4">Student Work</h2>
+            <p className="text-xl text-dark-600 max-w-2xl mx-auto">
+              See what our students have created after completing their courses
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[1, 2, 3, 4].map((num) => (
+              <div key={num} className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                <SmartImage
+                  src={`/images/IMG-20251101-WA007${num - 1}.jpg`}
+                  fallback={`https://placehold.co/400x400?text=Student+Work+${num}`}
+                  alt={`Student work ${num}`}
+                  className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                  <p className="text-white font-medium">Student Project</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Testimonials */}
       <section className="section-padding">
         <div className="container-custom">
