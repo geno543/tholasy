@@ -7,6 +7,7 @@ import CourseViewer from './pages/CourseViewer'
 import Enrollment from './pages/Enrollment'
 import About from './pages/About'
 import Contact from './pages/Contact'
+import Admin from './pages/Admin'
 
 function AppContent() {
   const location = useLocation()
@@ -23,6 +24,7 @@ function AppContent() {
           <Route path="/enrollment" element={<Enrollment />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </main>
       {!isCoursePage && <Footer />}

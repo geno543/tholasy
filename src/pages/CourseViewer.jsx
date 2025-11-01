@@ -5,10 +5,42 @@ const CourseViewer = () => {
   const { courseId } = useParams()
   const [currentSession, setCurrentSession] = useState(0)
   const [completedSessions, setCompletedSessions] = useState([])
+  const [userEmail, setUserEmail] = useState('')
+  const [showEmailPrompt, setShowEmailPrompt] = useState(true)
   
-  // TODO: Replace with actual authentication check
-  // For now, set to false to require enrollment
+  // Check if user is enrolled and approved
   const [isEnrolled, setIsEnrolled] = useState(false)
+
+  useEffect(() => {
+    // Check if email is already saved
+    const savedEmail = localStorage.getItem('userEmail')
+    if (savedEmail) {
+      setUserEmail(savedEmail)
+      setShowEmailPrompt(false)
+      checkEnrollmentStatus(savedEmail)
+    }
+  }, [courseId])
+
+  const checkEnrollmentStatus = (email) => {
+    const enrollments = JSON.parse(localStorage.getItem('enrollments') || '[]')
+    const userEnrollment = enrollments.find(
+      e => e.email === email && 
+      (e.course === courseId || e.course === 'bundle') && 
+      e.status === 'approved'
+    )
+    setIsEnrolled(!!userEnrollment)
+  }
+
+  const handleEmailSubmit = (e) => {
+    e.preventDefault()
+    if (userEmail && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userEmail)) {
+      localStorage.setItem('userEmail', userEmail)
+      setShowEmailPrompt(false)
+      checkEnrollmentStatus(userEmail)
+    } else {
+      alert('Please enter a valid email address')
+    }
+  }
 
   const courses = {
     blender: {
@@ -260,6 +292,31 @@ const CourseViewer = () => {
 
   return (
     <div className="min-h-screen bg-dark-900">
+      {/* Email Prompt Modal */}
+      {showEmailPrompt && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-dark-800 rounded-2xl max-w-md w-full p-8">
+            <h2 className="text-2xl font-bold text-white mb-4">Enter Your Email</h2>
+            <p className="text-dark-300 mb-6">
+              Please enter your registered email to access the course content.
+            </p>
+            <form onSubmit={handleEmailSubmit}>
+              <input
+                type="email"
+                value={userEmail}
+                onChange={(e) => setUserEmail(e.target.value)}
+                className="input-field bg-dark-700 text-white border-dark-600 mb-4"
+                placeholder="your@email.com"
+                required
+              />
+              <button type="submit" className="btn btn-primary w-full">
+                Continue
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* Course Header */}
       <div className="bg-dark-800 border-b border-dark-700">
         <div className="container-custom py-4">

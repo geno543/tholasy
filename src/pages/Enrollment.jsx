@@ -91,8 +91,34 @@ const Enrollment = () => {
     e.preventDefault()
     
     if (validateForm()) {
-      // In a real app, this would send to a backend
-      console.log('Form submitted:', formData)
+      // Get course name
+      const selectedCourse = courses.find(c => c.value === formData.course)
+      
+      // Create enrollment object
+      const enrollment = {
+        id: Date.now().toString(),
+        ...formData,
+        courseName: selectedCourse?.label || formData.course,
+        price: coursePrice,
+        submittedAt: new Date().toISOString(),
+        status: 'pending'
+      }
+      
+      // Save to localStorage
+      const existingEnrollments = JSON.parse(localStorage.getItem('enrollments') || '[]')
+      existingEnrollments.push(enrollment)
+      localStorage.setItem('enrollments', JSON.stringify(existingEnrollments))
+      
+      // Also save user's enrollment status for course access
+      const userEnrollments = JSON.parse(localStorage.getItem('userEnrollments') || '{}')
+      userEnrollments[formData.email] = {
+        courses: [formData.course],
+        status: 'pending',
+        enrolledAt: new Date().toISOString()
+      }
+      localStorage.setItem('userEnrollments', JSON.stringify(userEnrollments))
+      
+      console.log('Form submitted:', enrollment)
       setSubmitted(true)
       
       // Scroll to top to show success message
