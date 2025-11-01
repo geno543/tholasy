@@ -5,6 +5,10 @@ const CourseViewer = () => {
   const { courseId } = useParams()
   const [currentSession, setCurrentSession] = useState(0)
   const [completedSessions, setCompletedSessions] = useState([])
+  
+  // TODO: Replace with actual authentication check
+  // For now, set to false to require enrollment
+  const [isEnrolled, setIsEnrolled] = useState(false)
 
   const courses = {
     blender: {
@@ -192,6 +196,52 @@ const CourseViewer = () => {
 
   const currentSessionData = course.sessions[currentSession]
 
+  const canAccessSession = (session) => {
+    // Free sessions are always accessible
+    if (session.isFree) return true
+    // Premium sessions require enrollment
+    return isEnrolled
+  }
+
+  const handleSessionClick = (index) => {
+    const session = course.sessions[index]
+    if (canAccessSession(session)) {
+      setCurrentSession(index)
+    }
+  }
+
+  const goToPreviousSession = () => {
+    for (let i = currentSession - 1; i >= 0; i--) {
+      if (canAccessSession(course.sessions[i])) {
+        setCurrentSession(i)
+        break
+      }
+    }
+  }
+
+  const goToNextSession = () => {
+    for (let i = currentSession + 1; i < course.sessions.length; i++) {
+      if (canAccessSession(course.sessions[i])) {
+        setCurrentSession(i)
+        break
+      }
+    }
+  }
+
+  const hasPreviousAccessibleSession = () => {
+    for (let i = currentSession - 1; i >= 0; i--) {
+      if (canAccessSession(course.sessions[i])) return true
+    }
+    return false
+  }
+
+  const hasNextAccessibleSession = () => {
+    for (let i = currentSession + 1; i < course.sessions.length; i++) {
+      if (canAccessSession(course.sessions[i])) return true
+    }
+    return false
+  }
+
   const toggleComplete = (sessionId) => {
     if (completedSessions.includes(sessionId)) {
       setCompletedSessions(completedSessions.filter(id => id !== sessionId))
@@ -243,42 +293,52 @@ const CourseViewer = () => {
           <div className="p-4">
             <h2 className="text-lg font-bold text-white mb-4">Course Content</h2>
             <div className="space-y-2">
-              {course.sessions.map((session, index) => (
-                <button
-                  key={session.id}
-                  onClick={() => setCurrentSession(index)}
-                  className={`w-full text-left p-4 rounded-lg transition-all ${
-                    currentSession === index
-                      ? 'bg-primary-600 text-white'
-                      : 'bg-dark-700 text-dark-200 hover:bg-dark-600'
-                  }`}
-                >
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        {session.isFree && (
-                          <span className="text-xs bg-green-500 text-white px-2 py-0.5 rounded">
-                            FREE
-                          </span>
-                        )}
-                        <span className="text-xs opacity-75">{session.duration}</span>
+              {course.sessions.map((session, index) => {
+                const hasAccess = canAccessSession(session)
+                return (
+                  <button
+                    key={session.id}
+                    onClick={() => handleSessionClick(index)}
+                    disabled={!hasAccess}
+                    className={`w-full text-left p-4 rounded-lg transition-all relative ${
+                      currentSession === index
+                        ? 'bg-primary-600 text-white'
+                        : hasAccess
+                        ? 'bg-dark-700 text-dark-200 hover:bg-dark-600'
+                        : 'bg-dark-700 text-dark-400 opacity-60 cursor-not-allowed'
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          {session.isFree ? (
+                            <span className="text-xs bg-green-500 text-white px-2 py-0.5 rounded">
+                              FREE
+                            </span>
+                          ) : !hasAccess ? (
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                            </svg>
+                          ) : null}
+                          <span className="text-xs opacity-75">{session.duration}</span>
+                        </div>
+                        <div className="font-medium text-sm mb-1 line-clamp-2">
+                          {session.title}
+                        </div>
                       </div>
-                      <div className="font-medium text-sm mb-1 line-clamp-2">
-                        {session.title}
+                      <div className="flex-shrink-0">
+                        {hasAccess && completedSessions.includes(session.id) ? (
+                          <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                          </svg>
+                        ) : hasAccess ? (
+                          <div className="w-5 h-5 border-2 border-current rounded-full opacity-50" />
+                        ) : null}
                       </div>
                     </div>
-                    <div className="flex-shrink-0">
-                      {completedSessions.includes(session.id) ? (
-                        <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                        </svg>
-                      ) : (
-                        <div className="w-5 h-5 border-2 border-current rounded-full opacity-50" />
-                      )}
-                    </div>
-                  </div>
-                </button>
-              ))}
+                  </button>
+                )
+              })}
             </div>
           </div>
         </div>
@@ -286,7 +346,22 @@ const CourseViewer = () => {
         {/* Main Content - Video Player */}
         <div className="flex-1">
           <div className="bg-black">
-            {currentSessionData.videoUrl ? (
+            {!canAccessSession(currentSessionData) ? (
+              <div className="flex items-center justify-center bg-dark-800" style={{ height: '600px' }}>
+                <div className="text-center text-white max-w-md px-6">
+                  <svg className="w-20 h-20 mx-auto mb-6 text-primary-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                  </svg>
+                  <h3 className="text-2xl font-bold mb-4">Enroll to Access This Session</h3>
+                  <p className="text-dark-300 mb-6">
+                    This session is only available to enrolled students. Enroll now to unlock all course content!
+                  </p>
+                  <Link to="/enrollment" className="btn btn-primary inline-block">
+                    Enroll in This Course
+                  </Link>
+                </div>
+              </div>
+            ) : currentSessionData.videoUrl ? (
               <div className="relative" style={{ paddingTop: '56.25%' }}>
                 <iframe
                   src={getVideoEmbedUrl(currentSessionData.videoUrl)}
@@ -320,32 +395,34 @@ const CourseViewer = () => {
                   {currentSessionData.description}
                 </p>
               </div>
-              <button
-                onClick={() => toggleComplete(currentSessionData.id)}
-                className={`btn ${
-                  completedSessions.includes(currentSessionData.id)
-                    ? 'bg-green-600 hover:bg-green-700'
-                    : 'btn-primary'
-                } ml-4`}
-              >
-                {completedSessions.includes(currentSessionData.id) ? (
-                  <>
-                    <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                    Completed
-                  </>
-                ) : (
-                  'Mark as Complete'
-                )}
-              </button>
+              {canAccessSession(currentSessionData) && (
+                <button
+                  onClick={() => toggleComplete(currentSessionData.id)}
+                  className={`btn ${
+                    completedSessions.includes(currentSessionData.id)
+                      ? 'bg-green-600 hover:bg-green-700'
+                      : 'btn-primary'
+                  } ml-4`}
+                >
+                  {completedSessions.includes(currentSessionData.id) ? (
+                    <>
+                      <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Completed
+                    </>
+                  ) : (
+                    'Mark as Complete'
+                  )}
+                </button>
+              )}
             </div>
 
             {/* Navigation Buttons */}
             <div className="flex items-center justify-between pt-4 border-t border-dark-700">
               <button
-                onClick={() => setCurrentSession(Math.max(0, currentSession - 1))}
-                disabled={currentSession === 0}
+                onClick={goToPreviousSession}
+                disabled={!hasPreviousAccessibleSession()}
                 className="btn btn-outline disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -359,8 +436,8 @@ const CourseViewer = () => {
               </div>
 
               <button
-                onClick={() => setCurrentSession(Math.min(course.sessions.length - 1, currentSession + 1))}
-                disabled={currentSession === course.sessions.length - 1}
+                onClick={goToNextSession}
+                disabled={!hasNextAccessibleSession()}
                 className="btn btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Next Session
