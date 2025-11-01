@@ -21,24 +21,54 @@ const Courses = () => {
       description: 'Learn 3D modeling, animation, and rendering with Blender.',
       curriculum: [
         {
-          week: 'Part 1',
-          title: 'Basics & Modeling',
-          topics: ['Interface & Navigation', '3D Modeling Basics', 'Modifiers & Tools', 'Hard Surface Modeling']
+          week: 'Session 1',
+          title: 'Interface & Basics',
+          topics: ['Learning the interface and getting the basics and tool functions']
         },
         {
-          week: 'Part 2',
-          title: 'Materials & Textures',
-          topics: ['UV Unwrapping', 'Shader Editor', 'PBR Materials', 'Procedural Textures']
+          week: 'Session 2',
+          title: 'First Modeling Practice',
+          topics: ['Modeling a simple design to apply the tools']
         },
         {
-          week: 'Part 3',
+          week: 'Session 3',
+          title: 'Progressive Modeling',
+          topics: ['Practice more designs and models, gradually with the difficulties']
+        },
+        {
+          week: 'Session 4',
+          title: 'Shading & Materials',
+          topics: ['Shading and coloring the models', 'Difference between materials\' properties']
+        },
+        {
+          week: 'Session 5',
           title: 'Lighting & Rendering',
-          topics: ['Lighting Techniques', 'HDRI & Environment', 'Camera Settings', 'Render Engines']
+          topics: ['Practice on the lightning and types of render']
         },
         {
-          week: 'Part 4',
-          title: 'Animation',
-          topics: ['Keyframe Animation', 'Rigging Basics', 'Physics Simulation', 'Final Project']
+          week: 'Session 6',
+          title: 'Camera Operations',
+          topics: ['Learning about the camera and how to move it']
+        },
+        {
+          week: 'Session 7',
+          title: 'Exam & Future Planning',
+          topics: ['Exam session and know the future plan']
+        },
+        {
+          week: 'Session 8',
+          title: 'Animation Basics',
+          topics: ['Learning the basics of animation']
+        },
+        {
+          week: 'Session 9',
+          title: 'Complete Design Project',
+          topics: ['Build a complete design using all the previous knowledge']
+        },
+        {
+          week: 'Session 10',
+          title: 'Advanced Challenges',
+          topics: ['More advanced designs and complex modeling challenges']
         }
       ],
       skills: [
