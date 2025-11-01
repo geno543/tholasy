@@ -259,7 +259,7 @@ const CourseViewer = () => {
   const completionPercentage = (completedSessions.length / course.sessions.length) * 100
 
   return (
-    <div className="pt-20 min-h-screen bg-dark-900">
+    <div className="min-h-screen bg-dark-900">
       {/* Course Header */}
       <div className="bg-dark-800 border-b border-dark-700">
         <div className="container-custom py-4">
