@@ -34,9 +34,10 @@ const Enrollment = () => {
     { value: 'fawry', label: 'Fawry', icon: '🏪' }
   ]
 
-  // Secret code: THOLASY2024
+  // Promo codes: THOLASY2024 and FREEFULL2025
   const applyPromoCode = () => {
-    if (formData.promoCode.toUpperCase() === 'THOLASY2024') {
+    const code = formData.promoCode.toUpperCase()
+    if (code === 'THOLASY2024' || code === 'FREEFULL2025') {
       setDiscountApplied(true)
       setCoursePrice(0)
       setErrors(prev => ({ ...prev, promoCode: '' }))

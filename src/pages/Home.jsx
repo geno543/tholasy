@@ -65,22 +65,22 @@ const Home = () => {
 
   const testimonials = [
     {
-      name: 'Alex M.',
+      name: 'Ahmed Mohamed',
       role: 'Graduate',
       content: 'The Blender course helped me understand the fundamentals and start creating my own projects.',
       avatar: 'AM',
     },
     {
-      name: 'Jordan K.',
+      name: 'Kareem Hassan',
       role: 'Graduate',
       content: 'Good introduction to SolidWorks. The course materials were clear and well-organized.',
-      avatar: 'JK',
+      avatar: 'KH',
     },
     {
-      name: 'Sam L.',
+      name: 'Sara Ali',
       role: 'Graduate',
       content: 'Learned a lot about 3D modeling. The practical examples were really helpful.',
-      avatar: 'SL',
+      avatar: 'SA',
     },
   ]
 
