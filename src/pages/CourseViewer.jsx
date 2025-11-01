@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
+import { supabase } from '../lib/supabase'
 
 const CourseViewer = () => {
   const { courseId } = useParams()
@@ -21,14 +22,41 @@ const CourseViewer = () => {
     }
   }, [courseId])
 
-  const checkEnrollmentStatus = (email) => {
-    const enrollments = JSON.parse(localStorage.getItem('enrollments') || '[]')
-    const userEnrollment = enrollments.find(
-      e => e.email === email && 
-      (e.course === courseId || e.course === 'bundle') && 
-      e.status === 'approved'
-    )
-    setIsEnrolled(!!userEnrollment)
+  const checkEnrollmentStatus = async (email) => {
+    try {
+      // Check Supabase first
+      const { data, error } = await supabase
+        .from('enrollments')
+        .select('*')
+        .eq('email', email)
+        .eq('status', 'approved')
+        .in('course', [courseId, 'bundle'])
+      
+      if (error) {
+        console.error('Error checking enrollment:', error)
+        // Fallback to localStorage
+        const enrollments = JSON.parse(localStorage.getItem('enrollments') || '[]')
+        const userEnrollment = enrollments.find(
+          e => e.email === email && 
+          (e.course === courseId || e.course === 'bundle') && 
+          e.status === 'approved'
+        )
+        setIsEnrolled(!!userEnrollment)
+        return
+      }
+      
+      setIsEnrolled(data && data.length > 0)
+    } catch (err) {
+      console.error('Unexpected error checking enrollment:', err)
+      // Fallback to localStorage
+      const enrollments = JSON.parse(localStorage.getItem('enrollments') || '[]')
+      const userEnrollment = enrollments.find(
+        e => e.email === email && 
+        (e.course === courseId || e.course === 'bundle') && 
+        e.status === 'approved'
+      )
+      setIsEnrolled(!!userEnrollment)
+    }
   }
 
   const handleEmailSubmit = (e) => {

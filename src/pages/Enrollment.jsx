@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import SmartImage from '../components/ui/SmartImage'
+import { supabase } from '../lib/supabase'
 
 const Enrollment = () => {
   const [formData, setFormData] = useState({
@@ -88,45 +89,66 @@ const Enrollment = () => {
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     
     if (validateForm()) {
-      // Get course name
-      const selectedCourse = courses.find(c => c.value === formData.course)
-      
-      // Create enrollment object
-      const enrollment = {
-        id: Date.now().toString(),
-        ...formData,
-        courseName: selectedCourse?.label || formData.course,
-        price: coursePrice,
-        submittedAt: new Date().toISOString(),
-        status: 'pending'
+      try {
+        // Get course name
+        const selectedCourse = courses.find(c => c.value === formData.course)
+        
+        // Create enrollment object
+        const enrollment = {
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          course: formData.course,
+          course_name: selectedCourse?.label || formData.course,
+          payment_method: formData.paymentMethod,
+          wallet_number: formData.walletNumber,
+          promo_code: formData.promoCode,
+          price: coursePrice,
+          status: 'pending',
+          submitted_at: new Date().toISOString()
+        }
+        
+        // Save to Supabase
+        const { data, error } = await supabase
+          .from('enrollments')
+          .insert([enrollment])
+          .select()
+        
+        if (error) {
+          console.error('Error saving enrollment:', error)
+          alert('There was an error submitting your enrollment. Please try again.')
+          return
+        }
+        
+        console.log('Enrollment saved to Supabase!', data)
+        
+        // Also save to localStorage as backup
+        const existingEnrollments = JSON.parse(localStorage.getItem('enrollments') || '[]')
+        existingEnrollments.push({
+          id: data[0].id,
+          ...formData,
+          courseName: selectedCourse?.label || formData.course,
+          price: coursePrice,
+          submittedAt: new Date().toISOString(),
+          status: 'pending'
+        })
+        localStorage.setItem('enrollments', JSON.stringify(existingEnrollments))
+        
+        console.log('Enrollment saved! Total enrollments:', existingEnrollments.length)
+        
+        setSubmitted(true)
+        
+        // Scroll to top to show success message
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      } catch (err) {
+        console.error('Unexpected error:', err)
+        alert('There was an unexpected error. Please try again.')
       }
-      
-      // Save to localStorage
-      const existingEnrollments = JSON.parse(localStorage.getItem('enrollments') || '[]')
-      existingEnrollments.push(enrollment)
-      localStorage.setItem('enrollments', JSON.stringify(existingEnrollments))
-      
-      console.log('Enrollment saved! Total enrollments:', existingEnrollments.length)
-      console.log('Saved enrollment:', enrollment)
-      
-      // Also save user's enrollment status for course access
-      const userEnrollments = JSON.parse(localStorage.getItem('userEnrollments') || '{}')
-      userEnrollments[formData.email] = {
-        courses: [formData.course],
-        status: 'pending',
-        enrolledAt: new Date().toISOString()
-      }
-      localStorage.setItem('userEnrollments', JSON.stringify(userEnrollments))
-      
-      console.log('Form submitted:', enrollment)
-      setSubmitted(true)
-      
-      // Scroll to top to show success message
-      window.scrollTo({ top: 0, behavior: 'smooth' })
     } else {
       // Scroll to first error
       const firstError = Object.keys(errors)[0]

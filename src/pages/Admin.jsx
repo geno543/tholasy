@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { supabase } from '../lib/supabase'
 
 const Admin = () => {
   const navigate = useNavigate()
@@ -19,15 +20,32 @@ const Admin = () => {
     }
   }, [])
 
-  const loadEnrollments = () => {
-    const stored = localStorage.getItem('enrollments')
-    console.log('Loading enrollments from localStorage:', stored)
-    if (stored) {
-      const parsed = JSON.parse(stored)
-      console.log('Parsed enrollments:', parsed)
-      setEnrollments(parsed)
-    } else {
-      console.log('No enrollments found in localStorage')
+  const loadEnrollments = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('enrollments')
+        .select('*')
+        .order('created_at', { ascending: false })
+      
+      if (error) {
+        console.error('Error loading enrollments:', error)
+        // Fallback to localStorage
+        const stored = localStorage.getItem('enrollments')
+        if (stored) {
+          setEnrollments(JSON.parse(stored))
+        }
+        return
+      }
+      
+      console.log('Loaded enrollments from Supabase:', data)
+      setEnrollments(data || [])
+    } catch (err) {
+      console.error('Unexpected error loading enrollments:', err)
+      // Fallback to localStorage
+      const stored = localStorage.getItem('enrollments')
+      if (stored) {
+        setEnrollments(JSON.parse(stored))
+      }
     }
   }
 
@@ -48,35 +66,96 @@ const Admin = () => {
     navigate('/')
   }
 
-  const approveEnrollment = (id) => {
-    const updated = enrollments.map(enrollment => 
-      enrollment.id === id ? { ...enrollment, status: 'approved' } : enrollment
-    )
-    setEnrollments(updated)
-    localStorage.setItem('enrollments', JSON.stringify(updated))
-  }
-
-  const rejectEnrollment = (id) => {
-    const updated = enrollments.map(enrollment => 
-      enrollment.id === id ? { ...enrollment, status: 'rejected' } : enrollment
-    )
-    setEnrollments(updated)
-    localStorage.setItem('enrollments', JSON.stringify(updated))
-  }
-
-  const deleteEnrollment = (id) => {
-    if (confirm('Are you sure you want to delete this enrollment?')) {
-      const updated = enrollments.filter(enrollment => enrollment.id !== id)
+  const approveEnrollment = async (id) => {
+    try {
+      const { error } = await supabase
+        .from('enrollments')
+        .update({ status: 'approved' })
+        .eq('id', id)
+      
+      if (error) {
+        console.error('Error approving enrollment:', error)
+        alert('Failed to approve enrollment. Please try again.')
+        return
+      }
+      
+      // Update local state
+      const updated = enrollments.map(enrollment => 
+        enrollment.id === id ? { ...enrollment, status: 'approved' } : enrollment
+      )
       setEnrollments(updated)
+      
+      // Also update localStorage as backup
       localStorage.setItem('enrollments', JSON.stringify(updated))
+    } catch (err) {
+      console.error('Unexpected error approving enrollment:', err)
+      alert('An unexpected error occurred.')
+    }
+  }
+
+  const rejectEnrollment = async (id) => {
+    try {
+      const { error } = await supabase
+        .from('enrollments')
+        .update({ status: 'rejected' })
+        .eq('id', id)
+      
+      if (error) {
+        console.error('Error rejecting enrollment:', error)
+        alert('Failed to reject enrollment. Please try again.')
+        return
+      }
+      
+      // Update local state
+      const updated = enrollments.map(enrollment => 
+        enrollment.id === id ? { ...enrollment, status: 'rejected' } : enrollment
+      )
+      setEnrollments(updated)
+      
+      // Also update localStorage as backup
+      localStorage.setItem('enrollments', JSON.stringify(updated))
+    } catch (err) {
+      console.error('Unexpected error rejecting enrollment:', err)
+      alert('An unexpected error occurred.')
+    }
+  }
+
+  const deleteEnrollment = async (id) => {
+    if (confirm('Are you sure you want to delete this enrollment?')) {
+      try {
+        const { error } = await supabase
+          .from('enrollments')
+          .delete()
+          .eq('id', id)
+        
+        if (error) {
+          console.error('Error deleting enrollment:', error)
+          alert('Failed to delete enrollment. Please try again.')
+          return
+        }
+        
+        // Update local state
+        const updated = enrollments.filter(enrollment => enrollment.id !== id)
+        setEnrollments(updated)
+        
+        // Also update localStorage as backup
+        localStorage.setItem('enrollments', JSON.stringify(updated))
+      } catch (err) {
+        console.error('Unexpected error deleting enrollment:', err)
+        alert('An unexpected error occurred.')
+      }
     }
   }
 
   const filteredEnrollments = enrollments.filter(enrollment => {
+    const firstName = enrollment.first_name || enrollment.firstName || ''
+    const lastName = enrollment.last_name || enrollment.lastName || ''
+    const email = enrollment.email || ''
+    
     const matchesSearch = 
-      enrollment.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      enrollment.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      enrollment.email.toLowerCase().includes(searchTerm.toLowerCase())
+      firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      email.toLowerCase().includes(searchTerm.toLowerCase())
     
     const matchesCourse = filterCourse === 'all' || enrollment.course === filterCourse
     const matchesStatus = filterStatus === 'all' || enrollment.status === filterStatus
@@ -259,7 +338,7 @@ const Admin = () => {
                     <tr key={enrollment.id} className="hover:bg-dark-50">
                       <td className="px-6 py-4">
                         <div className="font-medium text-dark-900">
-                          {enrollment.firstName} {enrollment.lastName}
+                          {enrollment.first_name || enrollment.firstName} {enrollment.last_name || enrollment.lastName}
                         </div>
                       </td>
                       <td className="px-6 py-4">
@@ -268,12 +347,12 @@ const Admin = () => {
                       </td>
                       <td className="px-6 py-4">
                         <span className="px-3 py-1 bg-primary-100 text-primary-700 rounded-lg text-sm">
-                          {enrollment.courseName}
+                          {enrollment.course_name || enrollment.courseName}
                         </span>
                       </td>
                       <td className="px-6 py-4">
                         <div className="text-sm">
-                          <div className="font-medium text-dark-900">{enrollment.paymentMethod}</div>
+                          <div className="font-medium text-dark-900">{enrollment.payment_method || enrollment.paymentMethod}</div>
                           {enrollment.price > 0 ? (
                             <div className="text-dark-600">{enrollment.price} EGP</div>
                           ) : (
@@ -282,7 +361,7 @@ const Admin = () => {
                         </div>
                       </td>
                       <td className="px-6 py-4 text-sm text-dark-600">
-                        {new Date(enrollment.submittedAt).toLocaleString()}
+                        {new Date(enrollment.submitted_at || enrollment.submittedAt).toLocaleString()}
                       </td>
                       <td className="px-6 py-4">
                         <span className={`px-3 py-1 rounded-lg text-sm font-medium ${
