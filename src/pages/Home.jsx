@@ -52,6 +52,7 @@ const Home = () => {
       description: 'Learn 3D modeling, animation, and rendering with Blender.',
       highlights: ['Modeling', 'Sculpting', 'Animation', 'Rendering'],
       gradient: 'from-orange-500 to-red-600',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Blender_logo_no_text.svg/2503px-Blender_logo_no_text.svg.png',
     },
     {
       title: 'SolidWorks Course',
@@ -60,6 +61,7 @@ const Home = () => {
       description: 'Learn CAD design for engineering and product development.',
       highlights: ['CAD Design', 'Assembly', 'Simulation', 'Technical Drawing'],
       gradient: 'from-blue-500 to-indigo-600',
+      image: 'https://tse1.mm.bing.net/th/id/OIP.jOUZz6LPbwDieoKvVN7JfwHaEO?rs=1&pid=ImgDetMain',
     },
   ]
 
@@ -196,10 +198,7 @@ const Home = () => {
               >
                 <div className="relative h-48 overflow-hidden rounded-t-2xl">
                   <SmartImage
-                    src={index === 0
-                      ? 'https://images.pexels.com/photos/1037993/pexels-photo-1037993.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
-                      : 'https://images.pexels.com/photos/1148820/pexels-photo-1148820.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
-                    }
+                    src={course.image}
                     fallback={index === 0
                       ? 'https://placehold.co/800x450?text=Blender+Course'
                       : 'https://placehold.co/800x450?text=SolidWorks+Course'

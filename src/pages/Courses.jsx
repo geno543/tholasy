@@ -13,6 +13,7 @@ const Courses = () => {
       duration: 'Self-paced',
       level: 'All Levels',
       gradient: 'from-orange-500 to-red-600',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Blender_logo_no_text.svg/2503px-Blender_logo_no_text.svg.png',
       icon: (
         <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
@@ -96,6 +97,7 @@ const Courses = () => {
       duration: 'Self-paced',
       level: 'All Levels',
       gradient: 'from-blue-500 to-indigo-600',
+      image: 'https://tse1.mm.bing.net/th/id/OIP.jOUZz6LPbwDieoKvVN7JfwHaEO?rs=1&pid=ImgDetMain',
       icon: (
         <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
@@ -302,10 +304,7 @@ const Courses = () => {
                 {/* Course Image */}
                 <div className="relative h-64 overflow-hidden rounded-t-2xl">
                   <SmartImage
-                    src={course.id === 'blender'
-                      ? 'https://images.pexels.com/photos/8952545/pexels-photo-8952545.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
-                      : 'https://images.pexels.com/photos/209224/pexels-photo-209224.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
-                    }
+                    src={course.image}
                     fallback={course.id === 'blender'
                       ? 'https://placehold.co/1000x600?text=Blender+Course'
                       : 'https://placehold.co/1000x600?text=SolidWorks+Course'
