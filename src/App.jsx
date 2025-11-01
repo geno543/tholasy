@@ -12,10 +12,12 @@ import Admin from './pages/Admin'
 function AppContent() {
   const location = useLocation()
   const isCoursePage = location.pathname.startsWith('/course/')
+  const isAdminPage = location.pathname === '/admin'
+  const hideLayout = isCoursePage || isAdminPage
 
   return (
     <div className="min-h-screen flex flex-col">
-      {!isCoursePage && <Header />}
+      {!hideLayout && <Header />}
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -27,7 +29,7 @@ function AppContent() {
           <Route path="/admin" element={<Admin />} />
         </Routes>
       </main>
-      {!isCoursePage && <Footer />}
+      {!hideLayout && <Footer />}
     </div>
   )
 }

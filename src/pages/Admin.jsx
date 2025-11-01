@@ -120,7 +120,7 @@ const Admin = () => {
   }
 
   return (
-    <div className="pt-20 min-h-screen bg-dark-50">
+    <div className="min-h-screen bg-dark-50">
       {/* Header */}
       <div className="bg-dark-900 text-white py-6 shadow-lg">
         <div className="container-custom">
