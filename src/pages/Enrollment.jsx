@@ -110,6 +110,9 @@ const Enrollment = () => {
       existingEnrollments.push(enrollment)
       localStorage.setItem('enrollments', JSON.stringify(existingEnrollments))
       
+      console.log('Enrollment saved! Total enrollments:', existingEnrollments.length)
+      console.log('Saved enrollment:', enrollment)
+      
       // Also save user's enrollment status for course access
       const userEnrollments = JSON.parse(localStorage.getItem('userEnrollments') || '{}')
       userEnrollments[formData.email] = {
