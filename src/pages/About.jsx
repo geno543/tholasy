@@ -2,16 +2,6 @@ import { Link } from 'react-router-dom'
 import SmartImage from '../components/ui/SmartImage'
 
 const About = () => {
-  const team = [
-    {
-      name: 'Course Team',
-      role: 'Instructors',
-      specialty: '3D & CAD',
-      bio: 'Experienced professionals who have worked with both Blender and SolidWorks in various projects.',
-      avatar: 'CT'
-    },
-  ]
-
   const values = [
     {
       title: 'Practical Skills',
@@ -70,7 +60,7 @@ const About = () => {
               About THOLASY
             </h1>
             <p className="text-xl text-dark-200 leading-relaxed">
-              We provide training in 3D design software - Blender and SolidWorks. Our goal is to help students learn practical skills for creative and technical 3D work.
+              We provide training in 3D design software - Blender and SolidWorks. Our goal is to help Egyptian students and professionals learn practical skills for creative and technical 3D work.
             </p>
           </div>
         </div>
@@ -83,10 +73,10 @@ const About = () => {
             <div>
               <h2 className="heading-lg mb-6">What We Do</h2>
               <p className="text-lg text-dark-700 mb-4 leading-relaxed">
-                THOLASY offers online courses for learning 3D design. We cover Blender for creative 3D modeling and animation, and SolidWorks for CAD and engineering design.
+                THOLASY offers online courses for learning 3D design in Egypt. We cover Blender for creative 3D modeling and animation, and SolidWorks for CAD and engineering design.
               </p>
               <p className="text-lg text-dark-700 mb-6 leading-relaxed">
-                Our courses are designed to be practical and focused on real skills. Students work on projects and build portfolios as they learn.
+                Our courses are designed to be practical and focused on real skills that are in demand in the Egyptian and regional job market. Students work on projects and build portfolios as they learn.
               </p>
               <div className="flex gap-4">
                 <Link to="/courses" className="btn btn-primary">
@@ -123,8 +113,8 @@ const About = () => {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-white p-6 rounded-2xl shadow-lg">
-                <div className="text-4xl font-bold text-primary-600 mb-2">25</div>
-                <div className="text-dark-700">Graduates</div>
+                <div className="text-4xl font-bold text-primary-600 mb-2">Egypt</div>
+                <div className="text-dark-700">Based in</div>
               </div>
               <div className="bg-primary-50 p-6 rounded-2xl">
                 <div className="text-4xl font-bold text-primary-600 mb-2">2</div>
@@ -132,11 +122,11 @@ const About = () => {
               </div>
               <div className="bg-primary-50 p-6 rounded-2xl">
                 <div className="text-4xl font-bold text-primary-600 mb-2">Online</div>
-                <div className="text-dark-700">Self-Paced</div>
+                <div className="text-dark-700">Learning</div>
               </div>
               <div className="bg-primary-50 p-6 rounded-2xl">
-                <div className="text-4xl font-bold text-primary-600 mb-2">2024</div>
-                <div className="text-dark-700">Founded</div>
+                <div className="text-4xl font-bold text-primary-600 mb-2">Arabic</div>
+                <div className="text-dark-700">Support</div>
               </div>
             </div>
           </div>
@@ -166,36 +156,6 @@ const About = () => {
           </div>
         </div>
       </section>
-
-      {/* Team */}
-      <section className="section-padding">
-        <div className="container-custom">
-          <div className="text-center mb-16">
-            <h2 className="heading-lg mb-4">Who Teaches</h2>
-            <p className="text-xl text-dark-600 max-w-2xl mx-auto">
-              Our courses are created by people with experience in 3D design.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-1 gap-8 max-w-md mx-auto">
-            {team.map((member, index) => (
-              <div key={index} className="card text-center hover:-translate-y-2">
-                <div className="p-8">
-                  <div className="w-24 h-24 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full flex items-center justify-center text-white text-3xl font-bold mx-auto mb-6">
-                    {member.avatar}
-                  </div>
-                  <h3 className="text-xl font-bold mb-1">{member.name}</h3>
-                  <div className="text-primary-600 font-medium mb-2">{member.role}</div>
-                  <div className="badge bg-dark-100 text-dark-700 mb-4">{member.specialty}</div>
-                  <p className="text-dark-600 leading-relaxed">{member.bio}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-
 
       {/* CTA */}
       <section className="section-padding">
