@@ -264,6 +264,9 @@ const Courses = () => {
           </div>
 
           <div className="flex gap-4 pt-4">
+            <Link to={`/course/${course.id}`} className="btn bg-green-600 hover:bg-green-700 text-white flex-1">
+              View Course Content
+            </Link>
             <Link to="/enrollment" className="btn btn-primary flex-1">
               Enroll in This Course
             </Link>
@@ -348,13 +351,16 @@ const Courses = () => {
                   </div>
 
                   <div className="flex items-center justify-between pt-6 border-t border-dark-100">
-                    <div className="flex gap-3">
+                    <div className="flex gap-3 flex-wrap">
                       <button
                         onClick={() => setSelectedCourse(course)}
                         className="btn btn-outline"
                       >
                         View Details
                       </button>
+                      <Link to={`/course/${course.id}`} className="btn bg-green-600 hover:bg-green-700 text-white">
+                        View Course
+                      </Link>
                       <Link to="/enrollment" className="btn btn-primary">
                         Enroll
                       </Link>
