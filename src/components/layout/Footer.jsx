@@ -14,11 +14,6 @@ const Footer = () => {
       { name: 'Contact', path: '/contact' },
       { name: 'Enrollment', path: '/enrollment' },
     ],
-    Resources: [
-      { name: 'FAQ', path: '/about#faq' },
-      { name: 'Student Portal', path: '#' },
-      { name: 'Support', path: '/contact' },
-    ],
   }
 
   const socialLinks = [
@@ -54,7 +49,7 @@ const Footer = () => {
   return (
     <footer className="bg-dark-900 text-dark-100">
       <div className="container-custom py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* Brand Section */}
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center space-x-2 mb-4">
@@ -102,18 +97,10 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-dark-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-          <p className="text-dark-400 text-sm">
+        <div className="border-t border-dark-800 mt-12 pt-8">
+          <p className="text-dark-400 text-sm text-center">
             © {currentYear} THOLASY. All rights reserved.
           </p>
-          <div className="flex space-x-6 text-sm">
-            <a href="#" className="text-dark-400 hover:text-primary-500 transition-colors">
-              Privacy Policy
-            </a>
-            <a href="#" className="text-dark-400 hover:text-primary-500 transition-colors">
-              Terms of Service
-            </a>
-          </div>
         </div>
       </div>
     </footer>
